@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { askQuestion } from "./lib/api";
+import ReactMarkdown from "react-markdown";
 import "./Chat.css";
 
 function Chat() {
@@ -53,7 +54,13 @@ function Chat() {
             </div>
           ) : (
             <div key={idx} className={`chat-message ${msg.sender}`}>
-              <div className="bubble">{msg.text}</div>
+              <div className="bubble">
+                {msg.sender === "bot" ? (
+                  <ReactMarkdown>{msg.text}</ReactMarkdown>
+                ) : (
+                  msg.text
+                )}
+              </div>
             </div>
           )
         )}
