@@ -1,58 +1,24 @@
+/*
+  This file sets up the global base styles for the dark theme.
+  Its primary job is to prevent a "flash of unstyled content" (FOUC)
+  by ensuring the body background is dark before the React app loads.
+*/
+
 body {
-  font-family: sans-serif;
-  background: #f0f0f0;
+  /* Match the --background-color from the main Chat.css file */
+  background-color: #131314;
+
+  /* Set a modern, system-ui based font stack */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Remove default margin */
   margin: 0;
-  padding: 20px;
 }
 
-.app {
-  max-width: 600px;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
+/* Ensures the React root element takes up the full height, 
+  which is good practice for single-page applications.
+*/
+#root {
+  height: 100vh;
 }
 
-.chat-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.chat-box {
-  height: 400px;
-  overflow-y: auto;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin-bottom: 10px;
-  background: #fafafa;
-}
-
-.user {
-  text-align: right;
-  margin-bottom: 10px;
-}
-
-.bot {
-  text-align: left;
-  margin-bottom: 10px;
-}
-
-.input-area {
-  display: flex;
-  gap: 10px;
-}
-
-input {
-  flex: 1;
-  padding: 10px;
-  font-size: 1rem;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 1rem;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
