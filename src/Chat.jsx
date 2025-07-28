@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { askQuestion } from "./lib/api"; // Assuming this is your API call function
+import { askQuestion, endSession } from "./lib/api"; // Assuming this is your API call function
 import ReactMarkdown from "react-markdown";
 import "./Chat.css";
 
@@ -27,6 +27,7 @@ function Chat() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionID, setSessionID] = useState("");
   const messagesEndRef = useRef(null);
 
   // Function to scroll to the bottom of the chat
@@ -41,15 +42,18 @@ function Chat() {
 
   // Effect to start a new session on initial load
   useEffect(() => {
-    startNewSession();
+    startNewSession(false);
   }, []);
 
-  const startNewSession = () => {
+  const startNewSession = (clear) => {
     setMessages([{ 
       sender: "bot", 
       text: "Hi there! I'm a RAG-powered chatbot. How can I assist you today?" 
     }]);
     setInput("");
+    if(clear === true){
+      endSession(sessionID);
+    }
   };
 
   const sendMessage = async () => {
@@ -61,7 +65,7 @@ function Chat() {
     setIsLoading(true);
 
     try {
-      const answer = await askQuestion(input);
+      const answer = await askQuestion(input, sessionID, setSessionID);
       const botMsg = { sender: "bot", text: answer };
       setMessages((prev) => [...prev, botMsg]);
     } catch (error) {
@@ -87,7 +91,7 @@ function Chat() {
     <div className="chat-container">
       <div className="chat-header">
         <h2>Modern RAG Chatbot</h2>
-        <button className="new-chat-btn" onClick={startNewSession}>New Chat</button>
+        <button className="new-chat-btn" onClick={() => startNewSession(true)}>New Chat</button>
       </div>
       <div className="chat-box">
         {messages.map((msg, idx) => (
